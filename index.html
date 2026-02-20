@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KweangKwang Premium</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts: Rajdhani for a Cyber/HUD look -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Canvas for Dark Particles -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- App Store Background Ambient -->
+    <div class="app-bg-elements">
+        <i class="fa-brands fa-youtube float-icon"></i>
+        <i class="fa-brands fa-spotify float-icon"></i>
+        <i class="fa-solid fa-film float-icon"></i>
+        <i class="fa-solid fa-music float-icon"></i>
+        <i class="fa-solid fa-tv float-icon"></i>
+        <i class="fa-brands fa-apple float-icon"></i>
+    </div>
+
+    <!-- 3D Grid Background -->
+    <div class="cyber-grid"></div>
+
+    <!-- Navbar -->
+    <nav class="glass-nav">
+        <div class="nav-logo">
+            <i class="fa-solid fa-crown neon-gold-text"></i>
+            <span class="neon-gold-text">KWEANGKWANG</span>
+        </div>
+
+        <!-- Navbar Actions (Login or User Profile) -->
+        <div class="nav-actions">
+            <!-- Logged Out View -->
+            <button id="navLoginBtn" class="nav-login-btn" onclick="openAuthModal()">Sign In <i
+                    class="fa-solid fa-arrow-right-to-bracket"></i></button>
+
+            <!-- Logged In View -->
+            <div id="navUserProfile" class="nav-user-profile" style="display: none;">
+                <div class="user-balance">
+                    <span class="balance-val">00.00</span>
+                    <span class="balance-cur">฿</span>
+                </div>
+                <button class="hamburger-btn" onclick="toggleUserDropdown(event)">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- User Dropdown Menu (Hidden initially) -->
+    <div class="user-dropdown" id="userDropdown">
+        <a href="#" class="dropdown-item">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>ร้านค้า</span>
+        </a>
+        <a href="#" class="dropdown-item" onclick="openTopupModal()">
+            <i class="fa-solid fa-credit-card"></i>
+            <span>เติมเงิน</span>
+        </a>
+        <a href="#" class="dropdown-item" onclick="openHistoryModal()">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span>ประวัติการซื้อ</span>
+        </a>
+        <a href="#" class="dropdown-item">
+            <i class="fa-solid fa-gift"></i>
+            <span>แลกรางวัล</span>
+        </a>
+        <a href="#" class="dropdown-item">
+            <i class="fa-solid fa-circle-question"></i>
+            <span>คำถามที่พบบ่อย</span>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item logout" onclick="logoutSession()">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span>ออกจากระบบ</span>
+        </a>
+    </div>
+
+    <div class="store-container">
+
+        <!-- Header Section -->
+        <header class="store-header">
+            <h1 class="glitch-text" data-text="UNLOCK DIGITAL HORIZONS">UNLOCK DIGITAL HORIZONS</h1>
+            <p class="subtitle">Elevate your entertainment with VIP access to top-tier streaming platforms.</p>
+        </header>
+
+        <!-- App Catalog Grid -->
+        <div class="app-grid">
+
+            <!-- App Card: Youtube -->
+            <div class="app-card">
+                <div class="card-glow youtube-glow"></div>
+                <div class="app-icon youtube-icon"><i class="fa-brands fa-youtube"></i></div>
+                <h3>YouTube Premium</h3>
+                <p>Ad-free videos, background play, and YouTube Music downloads included.</p>
+                <div class="price-tag"><span class="currency">฿</span>159<span class="period">/mo</span></div>
+                <button class="buy-btn" onclick="openAuthModal('buy')">Get Access</button>
+            </div>
+
+            <!-- App Card: Netflix -->
+            <div class="app-card">
+                <div class="card-glow netflix-glow"></div>
+                <div class="app-icon netflix-icon"><i class="fa-solid fa-tv"></i><span class="sub-badge">NFLX</span>
+                </div>
+                <h3>Netflix 4K HDR</h3>
+                <p>Unlimited movies, TV shows, and mobile games on multiple screens.</p>
+                <div class="price-tag"><span class="currency">฿</span>419<span class="period">/mo</span></div>
+                <button class="buy-btn" onclick="openAuthModal('buy')">Get Access</button>
+            </div>
+
+            <!-- App Card: Spotify -->
+            <div class="app-card">
+                <div class="card-glow spotify-glow"></div>
+                <div class="app-icon spotify-icon"><i class="fa-brands fa-spotify"></i></div>
+                <h3>Spotify Premium</h3>
+                <p>Download music, ad-free listening, play any song, unlimited skips.</p>
+                <div class="price-tag"><span class="currency">฿</span>139<span class="period">/mo</span></div>
+                <button class="buy-btn" onclick="openAuthModal('buy')">Get Access</button>
+            </div>
+
+            <!-- App Card: Disney+ -->
+            <div class="app-card">
+                <div class="card-glow disney-glow"></div>
+                <div class="app-icon disney-icon"><i class="fa-solid fa-plus"></i><span class="sub-badge">DSNY</span>
+                </div>
+                <h3>Disney+ Hotstar</h3>
+                <p>Exclusive Marvel, Star Wars, and Pixar movies in highest fidelity.</p>
+                <div class="price-tag"><span class="currency">฿</span>99<span class="period">/mo</span></div>
+                <button class="buy-btn" onclick="openAuthModal('buy')">Get Access</button>
+            </div>
+
+            <!-- App Card: Prime Video -->
+            <div class="app-card">
+                <div class="card-glow prime-glow"></div>
+                <div class="app-icon prime-icon"><i class="fa-brands fa-amazon"></i><span class="sub-badge">PRIME</span>
+                </div>
+                <h3>Prime Video</h3>
+                <p>Amazon originals, popular movies, and hit TV shows all in one place.</p>
+                <div class="price-tag"><span class="currency">฿</span>149<span class="period">/mo</span></div>
+                <button class="buy-btn" onclick="openAuthModal('buy')">Get Access</button>
+            </div>
+
+            <!-- App Card: HBO Max -->
+            <div class="app-card">
+                <div class="card-glow hbo-glow"></div>
+                <div class="app-icon hbo-icon"><i class="fa-solid fa-film"></i><span class="sub-badge">HBO</span></div>
+                <h3>HBO Max</h3>
+                <p>Critically acclaimed series, blockbuster movies and exclusives.</p>
+                <div class="price-tag"><span class="currency">฿</span>199<span class="period">/mo</span></div>
+                <button class="buy-btn" onclick="openAuthModal('buy')">Get Access</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-close-area" onclick="closeAuthModal()"></div>
+
+        <div class="auth-container modal-content">
+            <div class="auth-box">
+                <!-- HUD Futuristic Corners -->
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+                <div class="hud-corner bottom-left"></div>
+                <div class="hud-corner bottom-right"></div>
+
+                <button class="close-btn" onclick="closeAuthModal()"><i class="fa-solid fa-xmark"></i></button>
+
+                <div class="logo-box">
+                    <i class="fa-solid fa-crown neon-gold-text logo-icon" style="font-size: 2rem;"></i>
+                    <h2 class="neon-gold-text" style="font-size: 1.5rem; letter-spacing: 3px;">KWEANGKWANG</h2>
+                    <div class="separator"></div>
+                </div>
+
+                <!-- LOGIN FORM -->
+                <div id="login-form" class="form-section active">
+                    <h2 class="form-title">MEMBER SIGN IN</h2>
+
+                    <form
+                        onsubmit="event.preventDefault(); closeAuthModal(); loginSession(); showToast('Login Successful!', 'เข้าสู่ระบบสำเร็จ ยินดีต้อนรับกลับครับ');">
+                        <div class="input-group">
+                            <i class="fa-solid fa-user tech-icon"></i>
+                            <input type="text" required placeholder=" ">
+                            <label>Username / Email</label>
+                            <div class="focus-line"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <i class="fa-solid fa-lock tech-icon"></i>
+                            <input type="password" required placeholder=" ">
+                            <label>Password</label>
+                            <div class="focus-line"></div>
+                        </div>
+
+                        <div class="form-options">
+                            <a href="#" class="forgot-pwd">Forgot Password?</a>
+                        </div>
+
+                        <button class="neon-btn">
+                            <span class="light-sweep"></span>
+                            <span class="btn-text">SIGN IN</span>
+                        </button>
+
+                        <div class="divider">
+                            <span>OR</span>
+                        </div>
+
+                        <div class="social-login">
+                            <button type="button" class="social-btn" onclick="simulatedSocialLogin('Google', this)"><i
+                                    class="fa-brands fa-google"></i> Google</button>
+                            <button type="button" class="social-btn" onclick="simulatedSocialLogin('Apple', this)"><i
+                                    class="fa-brands fa-apple"></i> Apple</button>
+                        </div>
+
+                        <p class="switch-form">Not a member? <a href="#" onclick="toggleForm()">CREATE ACCOUNT</a></p>
+                    </form>
+                </div>
+
+                <!-- SIGN UP FORM -->
+                <div id="signup-form" class="form-section">
+                    <h2 class="form-title">CREATE ACCOUNT</h2>
+
+                    <form
+                        onsubmit="event.preventDefault(); closeAuthModal(); loginSession(); showToast('Sign-in Successful!', 'สมัครสมาชิกและเข้าสู่ระบบสำเร็จครับ', 'fa-solid fa-user-check');">
+                        <div class="input-group">
+                            <i class="fa-solid fa-user tech-icon"></i>
+                            <input type="text" required placeholder=" ">
+                            <label>Username</label>
+                            <div class="focus-line"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <i class="fa-solid fa-envelope tech-icon"></i>
+                            <input type="email" required placeholder=" ">
+                            <label>Email</label>
+                            <div class="focus-line"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <i class="fa-solid fa-lock tech-icon"></i>
+                            <input type="password" required placeholder=" ">
+                            <label>Password</label>
+                            <div class="focus-line"></div>
+                        </div>
+
+                        <div class="form-options terms">
+                            <label class="checkbox-container">
+                                <input type="checkbox" required>
+                                <span class="checkmark"></span>
+                                I agree to Terms
+                            </label>
+                        </div>
+
+                        <button class="neon-btn">
+                            <span class="light-sweep"></span>
+                            <span class="btn-text">CREATE ACCOUNT</span>
+                        </button>
+
+                        <div class="divider" style="margin-top: 25px;">
+                            <span>OR</span>
+                        </div>
+
+                        <div class="social-login">
+                            <button type="button" class="social-btn" onclick="simulatedSocialLogin('Google', this)"><i
+                                    class="fa-brands fa-google"></i> Google</button>
+                            <button type="button" class="social-btn" onclick="simulatedSocialLogin('Apple', this)"><i
+                                    class="fa-brands fa-apple"></i> Apple</button>
+                        </div>
+
+                        <p class="switch-form">Already member? <a href="#" onclick="toggleForm()">SIGN IN</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- TOP-UP MODAL -->
+    <div class="modal-overlay" id="topupModal">
+        <div class="modal-close-area" onclick="closeTopupModal()"></div>
+
+        <div class="auth-container modal-content" style="max-width: 550px;">
+            <div class="auth-box payment-box">
+                <!-- HUD Futuristic Corners -->
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+                <div class="hud-corner bottom-left"></div>
+                <div class="hud-corner bottom-right"></div>
+
+                <button class="close-btn" onclick="closeTopupModal()"><i class="fa-solid fa-xmark"></i></button>
+
+                <h2 class="form-title" style="margin-bottom: 25px;">
+                    <i class="fa-solid fa-wallet" style="color: var(--gold); margin-right: 10px;"></i>
+                    เติมเงินเข้าระบบ
+                </h2>
+
+                <!-- Payment Method Tabs - Replaced with the requested Button Options style-->
+                <p style="text-align: center; color: var(--text-muted); margin-bottom: 15px;">เลือกช่องทางการชำระเงิน
+                </p>
+                <div class="payment-options-grid">
+                    <button class="pay-option-btn active" onclick="switchPayment('promptpay', this)">
+                        <i class="fa-solid fa-qrcode" style="color: #003399;"></i>
+                        <span>โอนธนาคาร (พร้อมเพย์)</span>
+                    </button>
+                    <button class="pay-option-btn" onclick="switchPayment('truemoney', this)">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/TrueMoney_logo.svg/1024px-TrueMoney_logo.svg.png"
+                            style="height: 20px; filter: brightness(0) invert(1) sepia(100%) hue-rotate(340deg) saturate(500%);">
+                        <span>TrueMoney Wallet</span>
+                    </button>
+                    <button class="pay-option-btn" onclick="switchPayment('card', this)">
+                        <i class="fa-regular fa-credit-card" style="color: #6772E5;"></i>
+                        <span>Payment Gateway (Credit/Debit)</span>
+                    </button>
+                </div>
+
+                <div class="divider" style="margin: 25px 0;"></div>
+
+                <!-- PROMPTPAY SECTION -->
+                <div id="pay-promptpay" class="pay-section active">
+                    <p style="text-align: center; color: var(--text-muted); margin-bottom: 20px;">สแกน QR Code
+                        ด้านล่างเพื่อชำระเงิน ผ่านแอปธนาคารใดก็ได้<br><span
+                            style="color:var(--gold); font-size: 0.9em;">(ระบบจะแจ้งเตือนแอดมินอัตโนมัติ)</span></p>
+                    <div class="qr-container">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=example_promptpay_data&bgcolor=fff"
+                            alt="PromptPay QR" class="qr-image">
+                        <p class="ref-code">Ref: KWK-2026X001</p>
+                    </div>
+                </div>
+
+                <!-- TRUEMONEY SECTION -->
+                <div id="pay-truemoney" class="pay-section">
+                    <p style="text-align: center; color: #ffffff; margin-bottom: 20px;">
+                        กรอกเบอร์โทรศัพท์ทรูมันนี่ของท่าน <br>
+                        <span style="color: var(--gold);">หรือ</span>โอนผ่านลิงก์ซองของขวัญระบบ
+                    </p>
+                    <div class="input-group">
+                        <i class="fa-solid fa-phone tech-icon"></i>
+                        <input type="text" placeholder=" " maxlength="10">
+                        <label>เบอร์โทรศัพท์ (08X-XXX-XXXX)</label>
+                        <div class="focus-line"></div>
+                    </div>
+                    <button class="neon-btn" style="margin-top: 10px;" onclick="simulatePaymentProcessing(this)">
+                        <span class="light-sweep"></span>
+                        <span class="btn-text">ดำเนินการต่อ</span>
+                    </button>
+                </div>
+
+                <!-- DEBIT/CREDIT CARD SECTION (Stripe/Omise) -->
+                <div id="pay-card" class="pay-section">
+                    <p style="text-align: center; color: var(--text-muted); margin-bottom: 20px;">
+                        <i class="fa-brands fa-cc-visa" style="font-size: 1.5rem; margin-right: 5px;"></i>
+                        <i class="fa-brands fa-cc-mastercard" style="font-size: 1.5rem;"></i><br>
+                        ชำระผ่าน Omise / GB PrimePay / Stripe
+                    </p>
+                    <div class="input-group">
+                        <i class="fa-regular fa-credit-card tech-icon"></i>
+                        <input type="text" placeholder=" " maxlength="19">
+                        <label>หมายเลขบัตร (Card Number)</label>
+                        <div class="focus-line"></div>
+                    </div>
+                    <div style="display: flex; gap: 15px;">
+                        <div class="input-group" style="flex: 1;">
+                            <input type="text" placeholder=" " maxlength="5">
+                            <label>MM/YY</label>
+                            <div class="focus-line"></div>
+                        </div>
+                        <div class="input-group" style="flex: 1;">
+                            <input type="text" placeholder=" " maxlength="3">
+                            <label>CVC</label>
+                            <div class="focus-line"></div>
+                        </div>
+                    </div>
+                    <button class="neon-btn" style="margin-top: 10px;" onclick="simulatePaymentProcessing(this)">
+                        <span class="light-sweep"></span>
+                        <span class="btn-text">ชำระเงิน</span>
+                    </button>
+                    <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: #555;">
+                        <i class="fa-solid fa-lock"></i> Secured by 256-bit encryption
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- PURCHASE HISTORY MODAL -->
+    <div class="modal-overlay" id="historyModal">
+        <div class="modal-close-area" onclick="closeHistoryModal()"></div>
+
+        <div class="auth-container modal-content" style="max-width: 900px; width: 95%;">
+            <div class="auth-box table-box">
+                <!-- HUD Futuristic Corners -->
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+                <div class="hud-corner bottom-left"></div>
+                <div class="hud-corner bottom-right"></div>
+
+                <button class="close-btn" onclick="closeHistoryModal()"><i class="fa-solid fa-xmark"></i></button>
+
+                <h2 class="form-title"
+                    style="margin-bottom: 20px; display: flex; align-items: center; justify-content: flex-start; gap: 10px; font-size: 1.4rem;">
+                    <i class="fa-solid fa-film" style="color: var(--gold);"></i>
+                    ประวัติการซื้อ (แอพพรีเมี่ยม)
+                    <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: normal;">(10
+                        รายการล่าสุด)</span>
+                </h2>
+
+                <div class="history-controls">
+                    <div class="entries-select">
+                        <i class="fa-solid fa-bars"></i> แสดงข้อมูล
+                        <select class="cyber-select">
+                            <option>10 รายการ</option>
+                            <option>20 รายการ</option>
+                            <option>50 รายการ</option>
+                        </select>
+                    </div>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i> ค้นหา:
+                        <input type="text" class="cyber-input" placeholder=" ">
+                    </div>
+                </div>
+
+                <div class="history-table-wrapper">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">Order ID</th>
+                                <th style="width: 30%;"><i class="fa-solid fa-box-open"></i> แพ็คเกจ</th>
+                                <th style="width: 20%;"><i class="fa-solid fa-key"></i> Email/Password</th>
+                                <th style="width: 15%;"><i class="fa-solid fa-wrench"></i> แจ้งปัญหา</th>
+                                <th style="width: 20%;"><i class="fa-regular fa-calendar-days"></i> เวลา</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Item 1 -->
+                            <tr>
+                                <td style="font-weight: 700; color: #fff;">351728</td>
+                                <td>
+                                    <div class="history-package-info">
+                                        <div class="package-tag"><i class="fa-solid fa-circle-check"></i> Package</div>
+                                        <div class="package-logo">
+                                            <div class="youtube-logo-mock">
+                                                <span>S</span>
+                                            </div>
+                                        </div>
+                                        <div class="package-name">Youtube Premium/30วัน (เมลตัวเอง)</div>
+                                        <div class="package-price-badge">59.00 บาท</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="action-btn get-data-btn" onclick="openOrderDataModal()">
+                                        <i class="fa-solid fa-key"></i> ดูข้อมูล <i class="fa-solid fa-lock"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="action-btn report-btn">
+                                        <i class="fa-solid fa-wrench"></i> แจ้งปัญหา
+                                    </button>
+                                </td>
+                                <td class="time-col">10 ก.พ. 2026 / 19:59 น.</td>
+                            </tr>
+
+                            <!-- Item 2 -->
+                            <tr>
+                                <td style="font-weight: 700; color: #fff;">351727</td>
+                                <td>
+                                    <div class="history-package-info">
+                                        <div class="package-tag"><i class="fa-solid fa-circle-check"></i> Package</div>
+                                        <div class="package-logo" style="background: #e50914;">
+                                            <i class="fa-brands fa-neos" style="font-size: 2rem; color: #fff;"></i>
+                                        </div>
+                                        <div class="package-name">Netflix Premium 4K (จอแชร์)</div>
+                                        <div class="package-price-badge" style="background: #e50914;">99.00 บาท</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="action-btn get-data-btn" onclick="openOrderDataModal()">
+                                        <i class="fa-solid fa-key"></i> ดูข้อมูล <i class="fa-solid fa-lock"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="action-btn report-btn">
+                                        <i class="fa-solid fa-wrench"></i> แจ้งปัญหา
+                                    </button>
+                                </td>
+                                <td class="time-col">08 ก.พ. 2026 / 12:45 น.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination-container">
+                    <button class="page-btn disabled">ก่อนหน้า</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">ถัดไป</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDER DATA MODAL (Popup for "ดูข้อมูล") -->
+    <div class="modal-overlay" id="orderDataModal">
+        <div class="modal-close-area" onclick="closeOrderDataModal()"></div>
+
+        <div class="auth-container modal-content" style="max-width: 500px; width: 95%;">
+            <div class="auth-box order-data-box">
+                <!-- HUD Futuristic Corners -->
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+
+                <button class="close-btn" onclick="closeOrderDataModal()"><i class="fa-solid fa-xmark"></i></button>
+
+                <!-- Status Header -->
+                <div class="order-status-header">
+                    <span class="status-badge-large success"
+                        style="background:var(--gold); color:#000; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);">
+                        <i class="fa-solid fa-circle-check"></i> สั่งซื้อสำเร็จ
+                    </span>
+                </div>
+
+                <!-- Basic Info -->
+                <div class="order-basic-info" style="text-align: center;">
+                    <div class="info-row" style="justify-content: center; margin-bottom: 5px;">
+                        <i class="fa-solid fa-box-open" style="color: var(--gold); margin-right: 5px;"></i>
+                        <span style="font-weight: 600; font-size: 1.1rem; color: #fff;">Youtube Premium/30วัน
+                            (เมลตัวเอง)</span>
+                    </div>
+                    <div class="info-row" style="justify-content: center;">
+                        <i class="fa-solid fa-square-check" style="color: var(--gold); margin-right: 5px;"></i>
+                        <span style="color: var(--text-muted);">Order ID 351728</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="order-actions-grid">
+                    <button class="action-btn-large report-btn">
+                        <i class="fa-solid fa-wrench"></i> แจ้งปัญหา
+                    </button>
+                    <button class="action-btn-large renew-btn">
+                        <i class="fa-regular fa-calendar-check"></i> วิธีต่ออายุ
+                    </button>
+                </div>
+
+                <div class="divider" style="margin: 0;"></div>
+
+                <!-- Package Details -->
+                <div class="order-credentials">
+                    <div class="big-package-logo">
+                        <span>K</span><br><small>KWEANGKWANG Store</small>
+                    </div>
+
+                    <div class="credential-item">
+                        <span class="cred-label"><i class="fa-solid fa-envelope"></i> Email :</span>
+                        <span class="cred-value" style="color:#fff;">user_mail@example.com</span>
+                    </div>
+
+                    <div class="credential-item">
+                        <span class="cred-label"><i class="fa-solid fa-key"></i> Password :</span>
+                        <span class="cred-value" style="color:#fff;">********</span>
+                    </div>
+
+                    <!-- Main Delivery Action Button -->
+                    <button class="delivery-action-btn">
+                        <span><i class="fa-brands fa-youtube" style="font-size: 1.2rem; color: #ff0000;"></i> Youtube
+                            Premium</span>
+                        <span class="sub-text">(กดรับสิทธิ์เข้าร่วมครอบครัว)</span>
+                    </button>
+
+                    <div class="expiry-info">
+                        <i class="fa-regular fa-calendar-days"></i> วันหมดอายุ &rarr; 12/03/2026
+                    </div>
+                </div>
+
+                <!-- Warning Box -->
+                <div class="warning-box">
+                    <div class="warning-title">
+                        <i class="fa-solid fa-triangle-exclamation"></i> คำเตือน!!! (อ่าน)
+                    </div>
+                    <p class="warning-text">
+                        ตรวจสอบ Gmail ก่อนกดเข้าร่วม "ครอบครัว" หากกดเข้าไปแล้วจะไม่สามารถแก้ไขได้!
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
